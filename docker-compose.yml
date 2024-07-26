@@ -1,0 +1,10 @@
+services:
+  nextjs:
+    build: ./client
+    ports:
+      - 3000:3000
+  fastapi:
+    build: ./server
+    ports:
+      - 8000:8000
+
