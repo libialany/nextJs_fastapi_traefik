@@ -17,14 +17,6 @@ services:
     build:
       context: traefik
       dockerfile: Dockerfile
-    volumes:
-      - "./traefik/traefik.dev.toml:/etc/traefik/traefik.toml"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-
-  traefik:
-    build:
-      context: traefik
-      dockerfile: Dockerfile
     ports:
       - 80:80
     volumes:
