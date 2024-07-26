@@ -1,10 +1,34 @@
 services:
   nextjs:
     build: ./client
-    ports:
-      - 3000:3000
+    labels:
+      - traefik.http.routers.nextjs.rule=Host(`traefik-demo.com`)
+      - traefik.http.services.nextjs.loadbalancer.server.port=3000
+      - traefik.enable=true
+      
   fastapi:
     build: ./server
+    labels:
+      - traefik.http.routers.fastapi.rule=Host(`traefik-demo.com`) && PathPrefix(`/api/v1`)
+      - traefik.http.services.fastapi.loadbalancer.server.port=8080
+      - traefik.enable=true
+
+  traefik:
+    build:
+      context: traefik
+      dockerfile: Dockerfile
+    volumes:
+      - "./traefik/traefik.dev.toml:/etc/traefik/traefik.toml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  traefik:
+    build:
+      context: traefik
+      dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - 80:80
+    volumes:
+      - "./traefik/traefik.dev.toml:/etc/traefik/traefik.toml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
 
