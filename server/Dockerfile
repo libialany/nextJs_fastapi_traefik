@@ -9,6 +9,8 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY ./app /code/app
 
+COPY ./app/.env.EXAMPLE /code/app/.env
+
 EXPOSE 8000
 
 CMD ["fastapi", "run", "app/main.py", "--port", "8000", "--host", "0.0.0.0"]
